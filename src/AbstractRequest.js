@@ -40,7 +40,6 @@ export default class AbstractRequest {
         const includes = this.includes.length ? `?include=${this.includes.join(',')}` : '';
         const endpoint = `${this.rootUrl}/${url}${includes}`;
         const requestOptions = merge.recursive(this.options, options);
-        console.log(this.options);
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions).then(::this.checkStatus);
