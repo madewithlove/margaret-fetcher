@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Request classes for fetch",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:madewithlove/margaret-fetcher.git"
+  },
   "keywords": [
     "fetch"
   ],
@@ -14,5 +18,8 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "merge": "^1.2.0"
+  },
+  "scripts": {
+    "postversion": "git push && git push --tags && npm publish"
   }
 }
