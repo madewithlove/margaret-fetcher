@@ -20,5 +20,6 @@
   },
   "scripts": {
     "postversion": "git push && git push --tags && npm publish"
-  }
+  },
+  "version": "0.1.0"
 }
