@@ -26,6 +26,7 @@ export default class AbstractRequest {
         const includes = this.includes.length ? `?include=${this.includes.join(',')}` : '';
         const endpoint = `${this.rootUrl}/${url}${includes}`;
         const requestOptions = merge({
+            method: 'GET',
             type: 'json',
             headers: {
                 'Accept':       'application/json',
@@ -35,7 +36,7 @@ export default class AbstractRequest {
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions).then(::this.checkStatus);
-        if (requestOptions.get('method') !== 'DELETE') {
+        if (requestOptions.method !== 'DELETE') {
             promise = promise.then(::this.parseJSON);
         }
 

@@ -2,6 +2,7 @@
   "name": "margaret-fetcher",
   "description": "Request classes for fetch",
   "main": "dist/index.js",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:madewithlove/margaret-fetcher.git"
@@ -18,18 +19,17 @@
     "isomorphic-fetch": "^2.2.1",
     "merge": "^1.2.0"
   },
-  "scripts": {
-    "clean": "rm -rf dist",
-    "build": "BABEL_ENV=production webpack --progress",
-    "preversion": "npm run clean; npm run build; git commit -am 'Build dist files'",
-    "postversion": "git push; git push --tags; npm publish"
-  },
-  "version": "0.1.2",
   "devDependencies": {
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "webpack": "^1.12.14"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "BABEL_ENV=production webpack --progress",
+    "preversion": "npm run clean; npm run build; git commit -am 'Build dist files'",
+    "postversion": "git push; git push --tags; npm publish"
   }
 }

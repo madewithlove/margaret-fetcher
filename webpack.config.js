@@ -15,6 +15,8 @@ var config = {
     output:  {
         path:     'dist',
         filename: 'index.js',
+        library: 'MargaretFetcher',
+        libraryTarget: 'umd'
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
