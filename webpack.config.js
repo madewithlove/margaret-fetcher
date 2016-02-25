@@ -1,15 +1,19 @@
 var webpack = require('webpack')
 
-var env = process.env.NODE_ENV
+var env = process.env.BABEL_ENV
 var config = {
-    entry: ['./src'],
+    entry:   ['./src'],
     module:  {
         loaders: [
-            {test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/}
+            {
+                test:    /\.js$/,
+                loaders: ['babel-loader'],
+                exclude: /node_modules/,
+            }
         ]
     },
-    output: {
-        path: 'lib',
+    output:  {
+        path:     'dist',
         filename: 'index.js',
     },
     plugins: [

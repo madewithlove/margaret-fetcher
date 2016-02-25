@@ -1,7 +1,7 @@
 {
   "name": "margaret-fetcher",
   "description": "Request classes for fetch",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:madewithlove/margaret-fetcher.git"
@@ -19,7 +19,8 @@
     "merge": "^1.2.0"
   },
   "scripts": {
-    "clean": "rm -rf lib",
+    "clean": "rm -rf dist",
+    "build": "BABEL_ENV=production webpack --progress",
     "prepublish": "npm run clean; npm run build",
     "postversion": "git push; git push --tags; npm publish"
   },
