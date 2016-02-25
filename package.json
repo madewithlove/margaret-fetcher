@@ -29,7 +29,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "BABEL_ENV=production webpack --progress",
-    "preversion": "npm run clean; npm run build; git commit -am 'Build dist files'",
+    "prepublish": "npm run clean; npm run build",
     "postversion": "git push; git push --tags; npm publish"
   }
 }
