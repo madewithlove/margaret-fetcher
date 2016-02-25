@@ -21,7 +21,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "BABEL_ENV=production webpack --progress",
-    "preversion": "npm run clean; npm run build",
+    "preversion": "npm run clean; npm run build; git commit -am 'Build dist files'",
     "postversion": "git push; git push --tags; npm publish"
   },
   "version": "0.1.2",
