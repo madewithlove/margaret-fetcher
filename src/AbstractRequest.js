@@ -39,7 +39,7 @@ export default class AbstractRequest {
         // Prepare payload
         const includes = this.includes.length ? `?include=${this.includes.join(',')}` : '';
         const endpoint = `${this.rootUrl}/${url}${includes}`;
-        const requestOptions = merge.recursive(this.options, options);
+        const requestOptions = merge.recursive(true, this.options, options);
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions).then(::this.checkStatus)
@@ -76,7 +76,7 @@ export default class AbstractRequest {
      * @param {Object} options
      */
     withOptions(options) {
-        this.options = merge.recursive(this.options, options);
+        this.options = merge.recursive(true, this.options, options);
     }
 
     //////////////////////////////////////////////////////////////////////
