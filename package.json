@@ -24,7 +24,7 @@
     "preversion": "npm run clean; npm run build",
     "postversion": "git push; git push --tags; npm publish"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "devDependencies": {
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
