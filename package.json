@@ -1,6 +1,5 @@
 {
   "name": "margaret-fetcher",
-  "version": "0.1.0",
   "description": "Request classes for fetch",
   "main": "index.js",
   "repository": {
