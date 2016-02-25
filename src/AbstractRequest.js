@@ -91,10 +91,17 @@ export default class AbstractRequest {
      * @returns {Object}
      */
     parseJSON(response) {
-        return response.json().then(data => ({
-            status: response.status,
-            data,
-        }));
+        return response.json().then(data => {
+            response.data = data;
+
+            return response;
+            return {
+                ok: response.ok,
+                status: response.status,
+                data: data,
+                statusText: response.statusText,
+            };
+        });
     }
 
     /**
