@@ -45,3 +45,33 @@ import UserRequests from './UserRequests';
 
 const user = UserRequests.show(3);
 ```
+
+## Advanced usage
+
+### Configuring options
+
+You can configure options passed with all requests either as one time thing:
+
+```js
+// Merge options with the defaults
+UserRequests.withOptions({headers: {Authorization: 'Bearer FOOBAR'}}).show(3)
+
+// Override default options 
+UserRequests.setOptions({headers: {Authorization: 'Bearer FOOBAR'}}).show(3)
+```
+
+Or through the class itself:
+
+```js
+class UserRequests extends CrudRequest {
+    constructor() {
+        super();
+
+        this.withOptions({
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            }
+        });
+    }
+}
+```

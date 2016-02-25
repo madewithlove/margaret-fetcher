@@ -14,6 +14,20 @@ export default class AbstractRequest {
     rootUrl = '/api';
 
     /**
+     * The default options
+     *
+     * @type {Object}
+     */
+    options = {
+        method: 'GET',
+        type: 'json',
+        headers: {
+            'Accept':       'application/json',
+            'Content-Type': 'application/json',
+        },
+    };
+
+    /**
      * Make a request somewhere
      *
      * @param {String} url
@@ -25,14 +39,8 @@ export default class AbstractRequest {
         // Prepare payload
         const includes = this.includes.length ? `?include=${this.includes.join(',')}` : '';
         const endpoint = `${this.rootUrl}/${url}${includes}`;
-        const requestOptions = merge({
-            method: 'GET',
-            type: 'json',
-            headers: {
-                'Accept':       'application/json',
-                'Content-Type': 'application/json',
-            },
-        }, options);
+        const requestOptions = merge.recursive(this.options, options);
+        console.log(this.options);
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions).then(::this.checkStatus);
@@ -41,6 +49,28 @@ export default class AbstractRequest {
         }
 
         return promise;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// OPTIONS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * Set the default options for all requests
+     *
+     * @param {Object} options
+     */
+    setOptions(options) {
+        this.options = options;
+    }
+
+    /**
+     * Merge some options to the defaults
+     *
+     * @param {Object} options
+     */
+    withOptions(options) {
+        this.options = merge.recursive(this.options, options);
     }
 
     //////////////////////////////////////////////////////////////////////
