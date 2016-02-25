@@ -19,8 +19,8 @@ export default class AbstractRequest {
      * @type {Object}
      */
     options = {
-        method: 'GET',
-        type: 'json',
+        method:  'GET',
+        type:    'json',
         headers: {
             'Accept':       'application/json',
             'Content-Type': 'application/json',
@@ -42,10 +42,17 @@ export default class AbstractRequest {
         const requestOptions = merge.recursive(this.options, options);
 
         // Parse promise if need be
-        let promise = fetch(endpoint, requestOptions).then(::this.checkStatus);
+        let promise = fetch(endpoint, requestOptions).then(::this.checkStatus)
         if (requestOptions.method !== 'DELETE') {
-            promise = promise.then(::this.parseJSON);
+            promise = promise
+                .then(::this.parseJSON)
+                .then(::this.checkStatus);
         }
+
+        // Catch errors
+        promise = promise.catch(error => {
+            console.log(error);
+        });
 
         return promise;
     }
@@ -98,14 +105,14 @@ export default class AbstractRequest {
      * @returns {Object}
      */
     checkStatus(response) {
-        if (response.status < 200 && response.status >= 300) {
-            const error = new Error(response.statusText);
+        if (response.status >= 200 && response.status < 300) {
+            return response;
+        } else {
+            var error = new Error(response.statusText);
             error.response = response;
 
-            throw error;
+            throw error
         }
-
-        return response;
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -119,14 +126,14 @@ export default class AbstractRequest {
     put(url, payload) {
         return this.make(url, {
             method: 'PUT',
-            body: JSON.stringify(payload),
+            body:   JSON.stringify(payload),
         });
     }
 
     post(url, payload) {
         return this.make(url, {
             method: 'POST',
-            body: JSON.stringify(payload),
+            body:   JSON.stringify(payload),
         });
     }
 
