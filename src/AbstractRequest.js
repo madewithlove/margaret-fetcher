@@ -52,6 +52,7 @@ export default class AbstractRequest {
         // Catch errors
         promise = promise.catch(error => {
             console.log(error);
+	        throw error;
         });
 
         return promise;
