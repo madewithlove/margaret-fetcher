@@ -42,16 +42,18 @@ export default class AbstractRequest {
         const requestOptions = merge.recursive(true, this.options, options);
 
         // Parse promise if need be
-        let promise = fetch(endpoint, requestOptions).then(::this.checkStatus)
+        let promise = fetch(endpoint, requestOptions);
         if (requestOptions.method !== 'DELETE') {
-            promise = promise
-                .then(::this.parseJSON)
-                .then(::this.checkStatus);
+            promise = promise.then(::this.parseJSON);
+        }
+        else {
+            promise = promise.then(::this.checkStatus);
         }
 
         // Catch errors
         promise = promise.catch(error => {
             console.log(error);
+	        throw error;
         });
 
         return promise;
@@ -84,7 +86,7 @@ export default class AbstractRequest {
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Parse the contents of a JSON response
+     * Parse the contents of a JSON response.
      *
      * @param {String} response
      *
@@ -94,13 +96,15 @@ export default class AbstractRequest {
         return response.json().then(data => {
             response.data = data;
 
-            return response;
-            return {
-                ok: response.ok,
-                status: response.status,
-                data: data,
-                statusText: response.statusText,
-            };
+            if (response.ok) {
+                return response;
+            }
+
+            let error = new Error(response.statusText);
+            error.response = response;
+            error.data = data;
+
+            throw error;
         });
     }
 
