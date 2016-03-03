@@ -81,6 +81,17 @@ export default class AbstractRequest {
         this.options = merge.recursive(true, this.options, options);
     }
 
+    /**
+     * @param {String} token
+     */
+    withBearerToken(token) {
+        this.withOptions({
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    }
+
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HANDLERS //////////////////////////////
     //////////////////////////////////////////////////////////////////////
