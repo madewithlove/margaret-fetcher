@@ -152,6 +152,13 @@ export default class AbstractRequest {
         });
     }
 
+    patch(url, payload) {
+        return this.make(url, {
+            method: 'PATCH',
+            body:   JSON.stringify(payload),
+        });
+    }
+
     post(url, payload) {
         return this.make(url, {
             method: 'POST',
