@@ -75,3 +75,11 @@ class UserRequests extends CrudRequest {
     }
 }
 ```
+
+### Extra helpers
+
+The package also comes with some helper methods for common options:
+
+```js
+UserRequests.withBearerToken('FOOBAR').show(3)
+```
