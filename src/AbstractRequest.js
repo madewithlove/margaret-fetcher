@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch';
+import 'isomorphic-fetch';
 import merge from 'merge';
 
 export default class AbstractRequest {
@@ -45,8 +45,7 @@ export default class AbstractRequest {
         let promise = fetch(endpoint, requestOptions);
         if (requestOptions.method !== 'DELETE') {
             promise = promise.then(::this.parseJSON);
-        }
-        else {
+        } else {
             promise = promise.then(::this.checkStatus);
         }
 
