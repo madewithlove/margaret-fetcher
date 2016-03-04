@@ -8,9 +8,8 @@ describe('AbstractRequest', () => {
 
     fetchMock.mock('http://google.com/foo', '{"foo":"bar"}');
     fetchMock.mock('http://google.com/bar', 500);
-    fetchMock.mock('http://google.com/options', (url, options) => {
-        return {url, options};
-    });
+    fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/options?include=foo,bar', (url, options) => ({url, options}));
 
     beforeEach(() => {
         requests = new AbstractRequest();
@@ -29,6 +28,15 @@ describe('AbstractRequest', () => {
         it('can catch errors', () => {
             return requests.make('bar').catch(error => {
                 expect(error.message).toBe('Unexpected end of input');
+                expect(fetchMock.calls().matched.length).toBe(1);
+            });
+        });
+
+        it('can define includes', () => {
+            requests.includes = ['foo', 'bar'];
+
+            return requests.post('options').then(response => {
+                expect(response.url).toBe('http://google.com/options?include=foo,bar');
                 expect(fetchMock.calls().matched.length).toBe(1);
             });
         });
