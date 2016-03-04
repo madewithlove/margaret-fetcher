@@ -69,6 +69,8 @@ export default class AbstractRequest {
      */
     setOptions(options) {
         this.options = options;
+
+        return this;
     }
 
     /**
@@ -78,17 +80,19 @@ export default class AbstractRequest {
      */
     withOptions(options) {
         this.options = merge.recursive(true, this.options, options);
+
+        return this;
     }
 
     /**
      * @param {String} token
      */
     withBearerToken(token) {
-        this.withOptions({
+        return this.withOptions({
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        })
+        });
     }
 
     //////////////////////////////////////////////////////////////////////

@@ -4,14 +4,18 @@ import AbstractRequest from '../src/AbstractRequest';
 import 'babel-polyfill';
 
 describe('AbstractRequest', () => {
-    const requests = new AbstractRequest();
-    requests.rootUrl = 'http://google.com';
+    let requests;
 
     fetchMock.mock('http://google.com/foo', '{"foo":"bar"}');
     fetchMock.mock('http://google.com/bar', 500);
+    fetchMock.mock('http://google.com/options', (url, options) => {
+        return {url, options};
+    });
 
     beforeEach(() => {
-       fetchMock.reset();
+        requests = new AbstractRequest();
+        requests.rootUrl = 'http://google.com';
+        fetchMock.reset();
     });
 
     describe('#make', () => {
@@ -27,6 +31,29 @@ describe('AbstractRequest', () => {
                 expect(error.message).toBe('Unexpected end of input');
                 expect(fetchMock.calls().matched.length).toBe(1);
             });
+        });
+    });
+
+    describe('#setOptions', () => {
+        it('can replace options', () => {
+            return requests
+                .setOptions({headers: {Foo: 'Bar'}})
+                .make('options')
+                .then(response => {
+                    expect(response.data.options.headers.Foo).toBe('Bar');
+                });
+        });
+    });
+
+    describe('#withOptions', () => {
+        it('can add options', () => {
+            return requests
+                .withBearerToken('Foo')
+                .make('options')
+                .then(response => {
+                    expect(response.data.options.method).toBe('GET');
+                    expect(response.data.options.headers.Authorization).toBe('Bearer Foo');
+                });
         });
     });
 });
