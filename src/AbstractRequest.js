@@ -1,5 +1,5 @@
-import 'isomorphic-fetch';
 import merge from 'merge';
+import 'isomorphic-fetch';
 
 export default class AbstractRequest {
 
@@ -19,10 +19,10 @@ export default class AbstractRequest {
      * @type {Object}
      */
     options = {
-        method:  'GET',
-        type:    'json',
+        method: 'GET',
+        type: 'json',
         headers: {
-            'Accept':       'application/json',
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
     };
@@ -43,16 +43,16 @@ export default class AbstractRequest {
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions);
-        if (requestOptions.method !== 'DELETE') {
-            promise = promise.then(::this.parseJSON);
-        } else {
+        if (requestOptions.method === 'DELETE') {
             promise = promise.then(::this.checkStatus);
+        } else {
+            promise = promise.then(::this.parseJSON);
         }
 
         // Catch errors
         promise = promise.catch(error => {
             console.log(error);
-	        throw error;
+            throw error;
         });
 
         return promise;
@@ -66,6 +66,8 @@ export default class AbstractRequest {
      * Set the default options for all requests
      *
      * @param {Object} options
+     *
+     * @return {AbstractRequest}
      */
     setOptions(options) {
         this.options = options;
@@ -77,6 +79,8 @@ export default class AbstractRequest {
      * Merge some options to the defaults
      *
      * @param {Object} options
+     *
+     * @return {AbstractRequest}
      */
     withOptions(options) {
         this.options = merge.recursive(true, this.options, options);
@@ -86,12 +90,14 @@ export default class AbstractRequest {
 
     /**
      * @param {String} token
+     *
+     * @return {AbstractRequest}
      */
     withBearerToken(token) {
         return this.withOptions({
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
         });
     }
 
@@ -114,7 +120,7 @@ export default class AbstractRequest {
                 return response;
             }
 
-            let error = new Error(response.statusText);
+            const error = new Error(response.statusText);
             error.response = response;
             error.data = data;
 
@@ -134,7 +140,7 @@ export default class AbstractRequest {
             return response;
         }
 
-        let error = new Error(response.statusText);
+        const error = new Error(response.statusText);
         error.response = response;
 
         throw error;
@@ -153,21 +159,21 @@ export default class AbstractRequest {
     put(url, payload) {
         return this.make(url, {
             method: 'PUT',
-            body:   JSON.stringify(payload),
+            body: JSON.stringify(payload),
         });
     }
 
     patch(url, payload) {
         return this.make(url, {
             method: 'PATCH',
-            body:   JSON.stringify(payload),
+            body: JSON.stringify(payload),
         });
     }
 
     post(url, payload) {
         return this.make(url, {
             method: 'POST',
-            body:   JSON.stringify(payload),
+            body: JSON.stringify(payload),
         });
     }
 

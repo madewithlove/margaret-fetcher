@@ -1,7 +1,7 @@
 import AbstractRequest from './AbstractRequest';
 
-export default class CrudRequest extends AbstractRequest
-{
+export default class CrudRequest extends AbstractRequest {
+
     /**
      * Name of the resource
      *
@@ -62,4 +62,5 @@ export default class CrudRequest extends AbstractRequest
     destroy(id) {
         return this.delete(`${this.resource}/${id}`);
     }
+
 }
