@@ -10,6 +10,10 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/foo', '{"foo":"bar"}');
     fetchMock.mock('http://google.com/bar', 500);
 
+    beforeEach(() => {
+       fetchMock.reset();
+    });
+
     describe('#make', () => {
         it('can make basic JSON request', () => {
             return requests.make('foo').then(response => {
@@ -21,7 +25,7 @@ describe('AbstractRequest', () => {
         it('can catch errors', () => {
             return requests.make('bar').catch(error => {
                 expect(error.message).toBe('Unexpected end of input');
-                expect(fetchMock.calls().matched.length).toBe(2);
+                expect(fetchMock.calls().matched.length).toBe(1);
             });
         });
     });

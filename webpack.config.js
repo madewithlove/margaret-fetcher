@@ -2,18 +2,18 @@ var webpack = require('webpack')
 
 var env = process.env.BABEL_ENV
 var config = {
-    entry:   ['./src'],
-    module:  {
+    entry: ['./src'],
+    module: {
         loaders: [
             {
-                test:    /\.js$/,
+                test: /\.js$/,
                 loaders: ['babel-loader'],
                 exclude: /node_modules/,
             }
         ]
     },
-    output:  {
-        path:     'dist',
+    output: {
+        path: 'dist',
         filename: 'index.js',
         library: 'MargaretFetcher',
         libraryTarget: 'umd'
@@ -31,10 +31,10 @@ if (env === 'production') {
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 pure_getters: true,
-                unsafe:       true,
+                unsafe: true,
                 unsafe_comps: true,
-                screw_ie8:    true,
-                warnings:     false
+                screw_ie8: true,
+                warnings: false
             }
         })
     )

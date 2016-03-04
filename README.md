@@ -1,5 +1,7 @@
 # Margaret Fetcher
 
+[![Build Status](https://travis-ci.org/madewithlove/margaret-fetcher.svg?branch=master)](https://travis-ci.org/madewithlove/margaret-fetcher)
+
 Dead simple request classes for fetch. 
 
 ## Usage
@@ -82,4 +84,11 @@ The package also comes with some helper methods for common options:
 
 ```js
 UserRequests.withBearerToken('FOOBAR').show(3)
+```
+
+## Testing
+
+```bash
+$ npm test
+$ npm test:watch
 ```

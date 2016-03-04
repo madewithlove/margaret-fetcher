@@ -35,6 +35,7 @@
     "build": "BABEL_ENV=production webpack --progress",
     "prepublish": "npm run clean; npm run build",
     "postversion": "git push; git push --tags; npm publish",
-    "test": "mocha tests --recursive --compilers js:babel-core/register"
+    "test": "mocha tests --recursive --compilers js:babel-core/register",
+    "test:watch": "npm run test -- --watch"
   }
 }
