@@ -34,6 +34,29 @@ describe('AbstractRequest', () => {
         });
     });
 
+    describe('#put', () => {
+        it('can make POST requests', () => {
+            return requests.post('options', {foo: 'bar'}).then(response => {
+                expect(response.data.options.method).toBe('POST');
+                expect(response.data.options.body).toBe('{"foo":"bar"}');
+            });
+        });
+
+        it('can make PATCH requests', () => {
+            return requests.patch('options', {foo: 'bar'}).then(response => {
+                expect(response.data.options.method).toBe('PATCH');
+                expect(response.data.options.body).toBe('{"foo":"bar"}');
+            });
+        });
+
+        it('can make PUT requests', () => {
+            return requests.put('options', {foo: 'bar'}).then(response => {
+                expect(response.data.options.method).toBe('PUT');
+                expect(response.data.options.body).toBe('{"foo":"bar"}');
+            });
+        });
+    });
+
     describe('#setOptions', () => {
         it('can replace options', () => {
             return requests

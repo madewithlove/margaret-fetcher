@@ -145,7 +145,9 @@ export default class AbstractRequest {
     //////////////////////////////////////////////////////////////////////
 
     get(url) {
-        return this.make(url, {method: 'GET'});
+        return this.make(url, {
+            method: 'GET',
+        });
     }
 
     put(url, payload) {
@@ -170,6 +172,8 @@ export default class AbstractRequest {
     }
 
     delete(url) {
-        return this.make(url, {method: 'DELETE'});
+        return this.make(url, {
+            method: 'DELETE',
+        });
     }
 }
