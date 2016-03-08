@@ -48,8 +48,7 @@ export default class AbstractRequest {
 
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions);
-        
-        
+
         if (requestOptions.method === 'DELETE') {
             promise = promise.then(::this.checkStatus);
         } else {
