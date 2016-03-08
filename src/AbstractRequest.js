@@ -11,7 +11,7 @@ export default class AbstractRequest {
     /**
      * @type {Array}
      */
-    middlewares = [];
+    middleware = [];
 
     /**
      * @type {string}
@@ -33,7 +33,7 @@ export default class AbstractRequest {
     };
 
     constructor() {
-        this.middlewares = [
+        this.middleware = [
             ::this.parseJSON,
         ];
     }
@@ -55,7 +55,7 @@ export default class AbstractRequest {
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions);
 
-        this.middlewares.forEach(middleware => {
+        this.middleware.forEach(middleware => {
             promise = promise.then(middleware);
         });
 

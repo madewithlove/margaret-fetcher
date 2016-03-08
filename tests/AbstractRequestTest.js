@@ -10,6 +10,11 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/bar', 500);
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?include=foo,bar', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/token', new Response({}, {
+      headers: {
+        Authorization: 'Bearer foo',
+      }
+    }));
 
     beforeEach(() => {
         requests = new AbstractRequest();
@@ -39,6 +44,18 @@ describe('AbstractRequest', () => {
                 expect(response.url).toBe('http://google.com/options?include=foo,bar');
                 expect(fetchMock.calls().matched.length).toBe(1);
             });
+        });
+
+        it('can allow custom middleware', () => {
+          const extractAuthorizationHeader = response => {
+            expect(response.headers.get('Authorization')).toBe('Bearer foo');
+          }
+
+          requests.middleware = [
+            extractAuthorizationHeader,
+          ];
+
+          return requests.get('token');
         });
     });
 

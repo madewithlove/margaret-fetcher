@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/madewithlove/margaret-fetcher.svg?branch=master)](https://travis-ci.org/madewithlove/margaret-fetcher)
 
-Dead simple request classes for fetch. 
+Dead simple request classes for fetch.
 
 ## Usage
 
@@ -35,7 +35,7 @@ import {CrudRequest} from 'margaret-fetcher';
 class UserRequests extends CrudRequest
 {
     includes = ['articles'];
-    
+
     resource = 'users';
 }
 
@@ -58,7 +58,7 @@ You can configure options passed with all requests either as one time thing:
 // Merge options with the defaults
 UserRequests.withOptions({headers: {Authorization: 'Bearer FOOBAR'}}).show(3)
 
-// Override default options 
+// Override default options
 UserRequests.setOptions({headers: {Authorization: 'Bearer FOOBAR'}}).show(3)
 ```
 
@@ -77,6 +77,32 @@ class UserRequests extends CrudRequest {
     }
 }
 ```
+
+### Middleware
+
+The promise returned by `fetch` will be passed through a list of `middleware`. By default it will return an object of the data contained in the response. But you can add your own middleware to perform specific logic.
+
+```js
+class MyRequest extends CrudRequest {
+    constructor() {
+        super();
+
+        this.middleware = [
+          ::this.extractAuthorizationHeader,
+          ::this.parseJSON,
+        ];
+    }
+
+    extractAuthorizationHeader(response) {
+        const authorizationHeader = response.headers.get('Authorization');
+
+        // Store it somewhere.
+
+        return response;
+    }
+}
+```
+
 
 ### Extra helpers
 
