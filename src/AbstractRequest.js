@@ -32,6 +32,12 @@ export default class AbstractRequest {
         },
     };
 
+    constructor() {
+        this.middlewares = [
+            ::this.parseJSON,
+        ];
+    }
+
     /**
      * Make a request somewhere
      *
@@ -49,14 +55,8 @@ export default class AbstractRequest {
         // Parse promise if need be
         let promise = fetch(endpoint, requestOptions);
 
-        if (requestOptions.method === 'DELETE') {
-            promise = promise.then(::this.checkStatus);
-        } else {
-            promise = promise.then(::this.parseJSON);
-        }
-
         this.middlewares.forEach(middleware => {
-            promise.then(middleware);
+            promise = promise.then(middleware);
         });
 
         // Catch errors
@@ -123,6 +123,18 @@ export default class AbstractRequest {
      * @returns {Object}
      */
     parseJSON(response) {
+        if (response.status === 204) {
+            if (response.ok) {
+                return response;
+            }
+
+            const error = new Error(response.statusText);
+            error.response = response;
+
+            throw error;
+        }
+
+
         return response.json().then(data => {
             response.data = data;
 
@@ -136,24 +148,6 @@ export default class AbstractRequest {
 
             throw error;
         });
-    }
-
-    /**
-     * Check the status of the response
-     *
-     * @param {Object} response
-     *
-     * @returns {Object}
-     */
-    checkStatus(response) {
-        if (response.ok) {
-            return response;
-        }
-
-        const error = new Error(response.statusText);
-        error.response = response;
-
-        throw error;
     }
 
     //////////////////////////////////////////////////////////////////////
