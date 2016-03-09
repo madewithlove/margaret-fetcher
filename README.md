@@ -78,6 +78,22 @@ class UserRequests extends CrudRequest {
 }
 ```
 
+### Configuring query parameters
+
+You can configure query parameters with the same ease through these provided methods:
+
+```js
+// Override all query parameters
+UserRequests.setQueryParameters({foo: 'bar'});
+
+// Append new query parameters
+UserRequests
+    .withQueryParameter('foo', 'bar')
+    .withQueryParameter('baz', 'qux');
+    
+UserRequests.withQueryParameters({foo: 'bar', baz: 'qux'});
+```
+
 ### Middleware
 
 The promise returned by `fetch` will be passed through a list of `middleware`. By default it will return an object of the data contained in the response. But you can add your own middleware to perform specific logic.
