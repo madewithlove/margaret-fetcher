@@ -2,6 +2,7 @@ import 'isomorphic-fetch';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import merge from 'merge';
+import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
 
@@ -49,12 +50,16 @@ export default class AbstractRequest {
 
     /**
      * @param {String} url
+     *
+     * @return {String}
      */
     buildEndpoint(url) {
         this.query.include = this.includes.join(',');
 
         // Build query parameters
-        let parameters = map(this.query, (value, key) => value ? `${key}=${value}` : null);
+        let parameters = map(this.query, (value, key) => {
+            return value ? `${key}=${value}` : null;
+        });
         parameters = filter(parameters);
 
         // Build endpoint
@@ -180,18 +185,18 @@ export default class AbstractRequest {
     }
 
     //////////////////////////////////////////////////////////////////////
-    ////////////////////////////// HANDLERS //////////////////////////////
+    ///////////////////////////// MIDDLEWARES ////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
     /**
      * Parse the contents of a JSON response.
      *
-     * @param {String} response
+     * @param {Response} response
      *
-     * @returns {Object}
+     * @returns {Response}
      */
     parseJSON(response) {
-        if (response.status === 204) {
+        if (response.status === NO_CONTENT) {
             if (response.ok) {
                 return response;
             }
