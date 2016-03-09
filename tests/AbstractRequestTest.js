@@ -10,6 +10,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/bar', 500);
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?include=foo,bar', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/options?foo=bar&baz=qux', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/token', new Response({}, {
       headers: {
         Authorization: 'Bearer foo',
@@ -49,13 +50,32 @@ describe('AbstractRequest', () => {
         it('can allow custom middleware', () => {
           const extractAuthorizationHeader = response => {
             expect(response.headers.get('Authorization')).toBe('Bearer foo');
-          }
+          };
 
-          requests.middleware = [
-            extractAuthorizationHeader,
-          ];
+          requests.middleware = [extractAuthorizationHeader];
 
           return requests.get('token');
+        });
+
+        it('can specify additional query parameters', () => {
+            requests
+                .withQueryParameter('foo', 'bar')
+                .withQueryParameters({baz: 'qux'});
+
+            return requests.post('options').then(response => {
+                expect(response.url).toBe('http://google.com/options?foo=bar&baz=qux');
+                expect(fetchMock.calls().matched.length).toBe(1);
+            });
+        });
+
+        it('can replace query parameters', () => {
+            requests.withQueryParameter('a', 'b');
+            requests.setQueryParameters({foo: 'bar', baz: 'qux'});
+
+            return requests.post('options').then(response => {
+                expect(response.url).toBe('http://google.com/options?foo=bar&baz=qux');
+                expect(fetchMock.calls().matched.length).toBe(1);
+            });
         });
     });
 

@@ -1,5 +1,7 @@
-import merge from 'merge';
 import 'isomorphic-fetch';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import merge from 'merge';
 
 export default class AbstractRequest {
 
@@ -32,10 +34,39 @@ export default class AbstractRequest {
         },
     };
 
+    /**
+     * The default query parameters
+     *
+     * @type {Object}
+     */
+    query = {};
+
     constructor() {
         this.middleware = [
             ::this.parseJSON,
         ];
+    }
+
+    /**
+     * @param {String} url
+     */
+    buildEndpoint(url) {
+        this.query.include = this.includes.join(',');
+
+        // Build query parameters
+        let parameters = map(this.query, (value, key) => value ? `${key}=${value}` : null);
+        parameters = filter(parameters);
+
+        // Build endpoint
+        let endpoint = `${this.rootUrl}/${url}`;
+        if (parameters.length) {
+            endpoint += '?';
+        }
+
+        // Add query parameters
+        endpoint += parameters.join('&');
+
+        return endpoint;
     }
 
     /**
@@ -48,8 +79,7 @@ export default class AbstractRequest {
      */
     make(url, options = {}) {
         // Prepare payload
-        const includes = this.includes.length ? `?include=${this.includes.join(',')}` : '';
-        const endpoint = `${this.rootUrl}/${url}${includes}`;
+        const endpoint = this.buildEndpoint(url);
         const requestOptions = merge.recursive(true, this.options, options);
 
         // Parse promise if need be
@@ -112,6 +142,44 @@ export default class AbstractRequest {
     }
 
     //////////////////////////////////////////////////////////////////////
+    ////////////////////////// QUERY PARAMETERS //////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param {Object} parameters
+     *
+     * @return {AbstractRequest}
+     */
+    setQueryParameters(parameters) {
+        this.query = parameters;
+
+        return this;
+    }
+
+    /**
+     * @param {String} key
+     * @param {String} value
+     *
+     * @return {AbstractRequest}
+     */
+    withQueryParameter(key, value) {
+        this.query[key] = value;
+
+        return this;
+    }
+
+    /**
+     * @param {Object} parameters
+     *
+     * @return {AbstractRequest}
+     */
+    withQueryParameters(parameters) {
+        this.query = merge(this.query, parameters);
+
+        return this;
+    }
+
+    //////////////////////////////////////////////////////////////////////
     ////////////////////////////// HANDLERS //////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
@@ -133,7 +201,6 @@ export default class AbstractRequest {
 
             throw error;
         }
-
 
         return response.json().then(data => {
             response.data = data;
