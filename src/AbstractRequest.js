@@ -83,12 +83,22 @@ export default class AbstractRequest {
      * @returns {Promise}
      */
     make(url, options = {}) {
-        // Prepare payload
-        const endpoint = this.buildEndpoint(url);
-        const requestOptions = merge.recursive(true, this.options, options);
+        const body = merge.recursive(true, this.options, options);
 
-        // Parse promise if need be
-        let promise = fetch(endpoint, requestOptions);
+        return this.fetch(url, body);
+    }
+
+    /**
+     * Make a raw fetch request
+     *
+     * @param {String} url
+     * @param {Object} body
+     *
+     * @returns {Promise}
+     */
+    fetch(url, body = {}) {
+        const endpoint = this.buildEndpoint(url);
+        let promise = fetch(endpoint, body);
 
         this.middleware.forEach(middleware => {
             promise = promise.then(middleware);

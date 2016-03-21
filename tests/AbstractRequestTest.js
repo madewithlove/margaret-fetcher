@@ -79,6 +79,19 @@ describe('AbstractRequest', () => {
         });
     });
 
+    describe('#fetch', () => {
+        it('can make raw fetch request', () => {
+            var body = {
+                method: 'POST',
+                body: {foo: 'bar'}
+            };
+
+            return requests.fetch('options', body).then(response => {
+                expect(response.data.options.headers).toBe(undefined);
+            });
+        });
+    });
+
     describe('#put', () => {
         it('can make POST requests', () => {
             return requests.post('options', {foo: 'bar'}).then(response => {
