@@ -58,6 +58,10 @@ export default class AbstractRequest {
 
         // Build query parameters
         let parameters = map(this.query, (value, key) => {
+            if (typeof value === 'object') {
+                return value.map(subvalue => `${key}[]=${subvalue}`).join('&');
+            }
+
             return value ? `${key}=${value}` : null;
         });
         parameters = filter(parameters);
@@ -106,7 +110,7 @@ export default class AbstractRequest {
 
         // Catch errors
         promise = promise.catch(error => {
-            console.log(error);
+            console.warn(error);
             throw error;
         });
 

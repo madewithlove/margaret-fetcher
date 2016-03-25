@@ -90,8 +90,14 @@ UserRequests.setQueryParameters({foo: 'bar'});
 UserRequests
     .withQueryParameter('foo', 'bar')
     .withQueryParameter('baz', 'qux');
-    
+
 UserRequests.withQueryParameters({foo: 'bar', baz: 'qux'});
+```
+
+You can also pass arrays to these methods:
+
+```js
+UserRequests.withQueryParameter('foo', ['bar', 'baz']); // ?foo[]=bar&foo[]=baz
 ```
 
 ### Middleware

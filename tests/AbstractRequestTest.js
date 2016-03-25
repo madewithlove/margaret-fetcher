@@ -11,6 +11,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?include=foo,bar', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo=bar&baz=qux', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/options?foo[]=bar&foo[]=baz', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/token', new Response({}, {
       headers: {
         Authorization: 'Bearer foo',
@@ -74,6 +75,15 @@ describe('AbstractRequest', () => {
 
             return requests.post('options').then(response => {
                 expect(response.url).toBe('http://google.com/options?foo=bar&baz=qux');
+                expect(fetchMock.calls().matched.length).toBe(1);
+            });
+        });
+
+        it('can specify array query parameters', () => {
+            requests.setQueryParameters({foo: ['bar', 'baz']});
+
+            return requests.post('options').then(response => {
+                expect(response.url).toBe('http://google.com/options?foo[]=bar&foo[]=baz');
                 expect(fetchMock.calls().matched.length).toBe(1);
             });
         });
