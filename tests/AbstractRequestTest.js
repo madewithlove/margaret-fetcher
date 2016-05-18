@@ -34,7 +34,7 @@ describe('AbstractRequest', () => {
 
         it('can catch errors', () => {
             return requests.make('bar').catch(error => {
-                expect(error.message).toBe('Unexpected end of input');
+                expect(error.message).toContain('Unexpected');
                 expect(fetchMock.calls().matched.length).toBe(1);
             });
         });
