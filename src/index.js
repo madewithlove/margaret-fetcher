@@ -1,3 +1,3 @@
 /* eslint object-curly-spacing: 0 */
-export AbstractRequest from './AbstractRequest';
-export CrudRequest from './CrudRequest';
+export {default as AbstractRequest} from './AbstractRequest';
+export {default as CrudRequest} from './CrudRequest';
