@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "eslint": "^2.4.0",
-    "eslint-config-madewithlove": "^2.0.0",
+    "eslint-config-madewithlove": "^3.2.0",
     "expect": "^1.14.0",
     "fetch-mock": "^4.1.1",
-    "madewithlove-webpack-config": "^3.0.0",
+    "madewithlove-webpack-config": "^4.0.1",
     "mocha": "^2.4.5",
     "webpack": "^1.12.14"
   },
