@@ -177,7 +177,9 @@ export default class AbstractRequest {
     withBearerToken(token) {
         return this.withOptions({
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: options => {
+                    return `Bearer ${typeof token === 'function' ? token(options) : token}`;
+                },
             },
         });
     }

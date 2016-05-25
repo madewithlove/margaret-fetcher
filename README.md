@@ -78,6 +78,17 @@ class UserRequests extends CrudRequest {
 }
 ```
 
+You can also pass callables as any option, and it will only get resolved before each request.
+Useful if you need to pass options that need to be always up to date:
+
+```js
+UserRequests.withOptions({
+    headers: {
+        Authorization: () => `Bearer ${AuthManager.getToken()}`,
+    }
+})
+```
+
 ### Configuring query parameters
 
 You can configure query parameters with the same ease through these provided methods:
@@ -132,6 +143,12 @@ The package also comes with some helper methods for common options:
 
 ```js
 UserRequests.withBearerToken('FOOBAR').show(3)
+```
+
+You can use a function as well, like for other options:
+
+```js
+UserRequests.withBearerToken(::AuthManager.getToken).show(3)
 ```
 
 ## Testing

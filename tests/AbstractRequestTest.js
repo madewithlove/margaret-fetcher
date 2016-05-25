@@ -159,14 +159,18 @@ describe('AbstractRequest', () => {
             return requests
                 .withOptions({
                     headers: {
-                        foo: options => options.bar,
-                        bar: 'baz',
+                        foo: options => options.baz,
+                        bar: () => 'baz',
+                        baz: 'qux',
                     },
                 })
+                .withBearerToken(options => options.baz)
                 .make('options')
                 .then(response => {
                     expect(response.data.options.method).toBe('GET');
-                    expect(response.data.options.headers.foo).toBe('baz');
+                    expect(response.data.options.headers.bar).toBe('baz');
+                    expect(response.data.options.headers.foo).toBe('qux');
+                    expect(response.data.options.headers.Authorization).toBe('Bearer qux');
                 });
         });
     });
