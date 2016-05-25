@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
-import merge from 'merge';
+import merge from 'lodash/merge';
 import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
@@ -87,7 +87,7 @@ export default class AbstractRequest {
      * @returns {Promise}
      */
     make(url, options = {}) {
-        const body = merge.recursive(true, this.options, options);
+        const body = merge(this.options, options);
 
         return this.fetch(url, body);
     }
@@ -142,7 +142,7 @@ export default class AbstractRequest {
      * @return {AbstractRequest}
      */
     withOptions(options) {
-        this.options = merge.recursive(true, this.options, options);
+        this.options = merge(this.options, options);
 
         return this;
     }

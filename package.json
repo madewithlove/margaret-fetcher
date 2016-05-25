@@ -17,8 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.13.1",
-    "merge": "^1.2.0"
+    "lodash": "^4.13.1"
   },
   "devDependencies": {
     "eslint": "^2.10.2",
