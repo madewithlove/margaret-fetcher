@@ -17,17 +17,17 @@
   "license": "MIT",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.6.1",
+    "lodash": "^4.13.1",
     "merge": "^1.2.0"
   },
   "devDependencies": {
-    "eslint": "^2.4.0",
-    "eslint-config-madewithlove": "^3.2.0",
-    "expect": "^1.14.0",
-    "fetch-mock": "^4.1.1",
+    "eslint": "^2.10.2",
+    "eslint-config-madewithlove": "^3.3.0",
+    "expect": "^1.20.1",
+    "fetch-mock": "^4.5.0",
     "madewithlove-webpack-config": "^4.0.1",
-    "mocha": "^2.4.5",
-    "webpack": "^1.12.14"
+    "mocha": "^2.5.3",
+    "webpack": "^1.13.1"
   },
   "scripts": {
     "build": "BABEL_ENV=production webpack --progress",
