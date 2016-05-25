@@ -15,7 +15,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/token', new Response({}, {
         headers: {
             Authorization: 'Bearer foo',
-        }
+        },
     }));
 
     beforeEach(() => {
@@ -121,6 +121,13 @@ describe('AbstractRequest', () => {
             return requests.put('options', {foo: 'bar'}).then(response => {
                 expect(response.data.options.method).toBe('PUT');
                 expect(response.data.options.body).toBe('{"foo":"bar"}');
+            });
+        });
+
+        it('can make DELETE requests', () => {
+            return requests.delete('options', {foo: 'bar'}).then(response => {
+                expect(response.data.options.method).toBe('DELETE');
+                expect(response.data.options.body).toBe(undefined);
             });
         });
     });
