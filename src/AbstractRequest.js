@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
+import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
 import {NO_CONTENT} from './HttpStatusCodes';
 
@@ -79,6 +80,26 @@ export default class AbstractRequest {
     }
 
     /**
+     * @param {Object} options
+     *
+     * @return {Object}
+     */
+    buildOptions(options) {
+        return mapValues(options, value => {
+            switch (typeof value) {
+                case 'function':
+                    return value(options);
+
+                case 'object':
+                    return this.buildOptions(value);
+
+                default:
+                    return value;
+            }
+        });
+    }
+
+    /**
      * Make a request somewhere
      *
      * @param {String} url
@@ -87,7 +108,8 @@ export default class AbstractRequest {
      * @returns {Promise}
      */
     make(url, options = {}) {
-        const body = merge(this.options, options);
+        let body = merge(this.options, options);
+        body = this.buildOptions(body);
 
         return this.fetch(url, body);
     }

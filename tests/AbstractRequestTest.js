@@ -147,5 +147,20 @@ describe('AbstractRequest', () => {
                     expect(response.data.options.headers.Authorization).toBe('Bearer Foo');
                 });
         });
+
+        it('can use callables as options', () => {
+            return requests
+                .withOptions({
+                    headers: {
+                        foo: options => options.bar,
+                        bar: 'baz',
+                    },
+                })
+                .make('options')
+                .then(response => {
+                    expect(response.data.options.method).toBe('GET');
+                    expect(response.data.options.headers.foo).toBe('baz');
+                });
+        });
     });
 });
