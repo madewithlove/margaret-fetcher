@@ -3,6 +3,7 @@ import mapKeys from 'lodash/mapKeys';
 import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
 import {stringify} from 'query-string';
+import {buildQueryString} from './helpers';
 import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
@@ -59,16 +60,7 @@ export default class AbstractRequest {
             this.query.include = this.includes.join(',');
         }
 
-        // Switch keys to [] notation
-        let query = mapKeys(this.query, (value, key) => {
-            return Array.isArray(value) ? `${key}[]` : key;
-        });
-
-        // Stringify query parameters
-        query = stringify(query, {encode: false});
-        query = query ? `?${query}` : '';
-
-        return `${this.rootUrl}/${url}${query}`;
+        return `${this.rootUrl}/${url}${buildQueryString(this.query)}`;
     }
 
     /**
