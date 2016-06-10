@@ -10,7 +10,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/bar', 500);
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?include=foo,bar', (url, options) => ({url, options}));
-    fetchMock.mock('http://google.com/options?foo=bar&baz=qux', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/options?baz=qux&foo=bar', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo[]=bar&foo[]=baz', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/token', new Response({}, {
         headers: {
@@ -64,7 +64,7 @@ describe('AbstractRequest', () => {
                 .withQueryParameters({baz: 'qux'});
 
             return requests.post('options').then(response => {
-                assert.equal(response.url, 'http://google.com/options?foo=bar&baz=qux');
+                assert.equal(response.url, 'http://google.com/options?baz=qux&foo=bar');
                 assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
@@ -74,7 +74,7 @@ describe('AbstractRequest', () => {
             requests.setQueryParameters({foo: 'bar', baz: 'qux'});
 
             return requests.post('options').then(response => {
-                assert.equal(response.url, 'http://google.com/options?foo=bar&baz=qux');
+                assert.equal(response.url, 'http://google.com/options?baz=qux&foo=bar');
                 assert.equal(fetchMock.calls().matched.length, 1);
             });
         });

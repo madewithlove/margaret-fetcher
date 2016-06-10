@@ -1,8 +1,8 @@
 import 'isomorphic-fetch';
-import filter from 'lodash/filter';
-import map from 'lodash/map';
+import mapKeys from 'lodash/mapKeys';
 import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
+import {stringify} from 'query-string';
 import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
@@ -55,28 +55,20 @@ export default class AbstractRequest {
      * @return {String}
      */
     buildEndpoint(url) {
-        this.query.include = this.includes.join(',');
-
-        // Build query parameters
-        let parameters = map(this.query, (value, key) => {
-            if (typeof value === 'object') {
-                return value.map(subvalue => `${key}[]=${subvalue}`).join('&');
-            }
-
-            return value ? `${key}=${value}` : null;
-        });
-        parameters = filter(parameters);
-
-        // Build endpoint
-        let endpoint = `${this.rootUrl}/${url}`;
-        if (parameters.length) {
-            endpoint += '?';
+        if (this.includes.length) {
+            this.query.include = this.includes.join(',');
         }
 
-        // Add query parameters
-        endpoint += parameters.join('&');
+        // Switch keys to [] notation
+        let query = mapKeys(this.query, (value, key) => {
+            return Array.isArray(value) ? `${key}[]` : key;
+        });
 
-        return endpoint;
+        // Stringify query parameters
+        query = stringify(query, {encode: false});
+        query = query ? `?${query}` : '';
+
+        return `${this.rootUrl}/${url}${query}`;
     }
 
     /**
