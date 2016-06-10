@@ -1,8 +1,6 @@
 import 'isomorphic-fetch';
-import mapKeys from 'lodash/mapKeys';
 import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
-import {stringify} from 'query-string';
 import {buildQueryString} from './helpers';
 import {NO_CONTENT} from './HttpStatusCodes';
 
