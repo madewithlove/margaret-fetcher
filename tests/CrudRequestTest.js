@@ -1,4 +1,4 @@
-import expect from 'expect';
+import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import CrudRequest from '../src/CrudRequest';
 import 'babel-polyfill';
@@ -26,8 +26,8 @@ describe('CrudRequest', () => {
     describe('#index', () => {
         it('can get all of a resource', () => {
             return requests.index().then(response => {
-                expect(response.data.users).toEqual(['foo']);
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.deepEqual(response.data.users, ['foo']);
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
     });
@@ -35,8 +35,8 @@ describe('CrudRequest', () => {
     describe('#store', () => {
         it('can store a resource', () => {
             return requests.store({name: 'foo'}).then(response => {
-                expect(response.data.users).toEqual([{name: 'foo'}]);
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.deepEqual(response.data.users, [{name: 'foo'}]);
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
     });
@@ -45,8 +45,8 @@ describe('CrudRequest', () => {
     describe('#show', () => {
         it('can get a resource', () => {
             return requests.show(1).then(response => {
-                expect(response.data).toEqual({name: 'foo'});
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.deepEqual(response.data, {name: 'foo'});
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
     });
@@ -55,8 +55,8 @@ describe('CrudRequest', () => {
     describe('#update', () => {
         it('can update a resource', () => {
             return requests.update(1, {name: 'bar'}).then(response => {
-                expect(response.data).toEqual({name: 'bar'});
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.deepEqual(response.data, {name: 'bar'});
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
     });
@@ -66,7 +66,7 @@ describe('CrudRequest', () => {
     describe('#delete', () => {
         it('can delete a resource', () => {
             return requests.destroy(1).then(response => {
-                expect(response.status).toBe(204);
+                assert.equal(response.status, 204);
             });
         });
     });

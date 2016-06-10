@@ -1,4 +1,4 @@
-import expect from 'expect';
+import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import AbstractRequest from '../src/AbstractRequest';
 import 'babel-polyfill';
@@ -27,15 +27,15 @@ describe('AbstractRequest', () => {
     describe('#make', () => {
         it('can make basic JSON request', () => {
             return requests.make('foo').then(response => {
-                expect(response.data.foo).toBe('bar');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(response.data.foo, 'bar');
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
 
         it('can catch errors', () => {
             return requests.make('bar').catch(error => {
-                expect(error.message).toContain('Unexpected');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(error.message.includes('Unexpected'), true);
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
 
@@ -43,14 +43,14 @@ describe('AbstractRequest', () => {
             requests.includes = ['foo', 'bar'];
 
             return requests.post('options').then(response => {
-                expect(response.url).toBe('http://google.com/options?include=foo,bar');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(response.url, 'http://google.com/options?include=foo,bar');
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
 
         it('can allow custom middleware', () => {
             const extractAuthorizationHeader = response => {
-                expect(response.headers.get('Authorization')).toBe('Bearer foo');
+                assert.equal(response.headers.get('Authorization'), 'Bearer foo');
             };
 
             requests.middleware = [extractAuthorizationHeader];
@@ -64,8 +64,8 @@ describe('AbstractRequest', () => {
                 .withQueryParameters({baz: 'qux'});
 
             return requests.post('options').then(response => {
-                expect(response.url).toBe('http://google.com/options?foo=bar&baz=qux');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(response.url, 'http://google.com/options?foo=bar&baz=qux');
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
 
@@ -74,8 +74,8 @@ describe('AbstractRequest', () => {
             requests.setQueryParameters({foo: 'bar', baz: 'qux'});
 
             return requests.post('options').then(response => {
-                expect(response.url).toBe('http://google.com/options?foo=bar&baz=qux');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(response.url, 'http://google.com/options?foo=bar&baz=qux');
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
 
@@ -83,8 +83,8 @@ describe('AbstractRequest', () => {
             requests.setQueryParameters({foo: ['bar', 'baz']});
 
             return requests.post('options').then(response => {
-                expect(response.url).toBe('http://google.com/options?foo[]=bar&foo[]=baz');
-                expect(fetchMock.calls().matched.length).toBe(1);
+                assert.equal(response.url, 'http://google.com/options?foo[]=bar&foo[]=baz');
+                assert.equal(fetchMock.calls().matched.length, 1);
             });
         });
     });
@@ -97,7 +97,7 @@ describe('AbstractRequest', () => {
             };
 
             return requests.fetch('options', body).then(response => {
-                expect(response.data.options.headers).toBe(undefined);
+                assert.equal(response.data.options.headers, undefined);
             });
         });
     });
@@ -105,29 +105,29 @@ describe('AbstractRequest', () => {
     describe('#put', () => {
         it('can make POST requests', () => {
             return requests.post('options', {foo: 'bar'}).then(response => {
-                expect(response.data.options.method).toBe('POST');
-                expect(response.data.options.body).toBe('{"foo":"bar"}');
+                assert.equal(response.data.options.method, 'POST');
+                assert.equal(response.data.options.body, '{"foo":"bar"}');
             });
         });
 
         it('can make PATCH requests', () => {
             return requests.patch('options', {foo: 'bar'}).then(response => {
-                expect(response.data.options.method).toBe('PATCH');
-                expect(response.data.options.body).toBe('{"foo":"bar"}');
+                assert.equal(response.data.options.method, 'PATCH');
+                assert.equal(response.data.options.body, '{"foo":"bar"}');
             });
         });
 
         it('can make PUT requests', () => {
             return requests.put('options', {foo: 'bar'}).then(response => {
-                expect(response.data.options.method).toBe('PUT');
-                expect(response.data.options.body).toBe('{"foo":"bar"}');
+                assert.equal(response.data.options.method, 'PUT');
+                assert.equal(response.data.options.body, '{"foo":"bar"}');
             });
         });
 
         it('can make DELETE requests', () => {
             return requests.delete('options', {foo: 'bar'}).then(response => {
-                expect(response.data.options.method).toBe('DELETE');
-                expect(response.data.options.body).toBe(undefined);
+                assert.equal(response.data.options.method, 'DELETE');
+                assert.equal(response.data.options.body, undefined);
             });
         });
     });
@@ -138,8 +138,8 @@ describe('AbstractRequest', () => {
                 .setOptions({headers: {Foo: 'Bar'}})
                 .make('options', {headers: {Bar: 'Baz'}})
                 .then(response => {
-                    expect(response.data.options.headers.Foo).toBe('Bar');
-                    expect(response.data.options.headers.Bar).toBe('Baz');
+                    assert.equal(response.data.options.headers.Foo, 'Bar');
+                    assert.equal(response.data.options.headers.Bar, 'Baz');
                 });
         });
     });
@@ -150,8 +150,8 @@ describe('AbstractRequest', () => {
                 .withBearerToken('Foo')
                 .make('options')
                 .then(response => {
-                    expect(response.data.options.method).toBe('GET');
-                    expect(response.data.options.headers.Authorization).toBe('Bearer Foo');
+                    assert.equal(response.data.options.method, 'GET');
+                    assert.equal(response.data.options.headers.Authorization, 'Bearer Foo');
                 });
         });
 
@@ -167,10 +167,10 @@ describe('AbstractRequest', () => {
                 .withBearerToken(options => options.baz)
                 .make('options')
                 .then(response => {
-                    expect(response.data.options.method).toBe('GET');
-                    expect(response.data.options.headers.bar).toBe('baz');
-                    expect(response.data.options.headers.foo).toBe('qux');
-                    expect(response.data.options.headers.Authorization).toBe('Bearer qux');
+                    assert.equal(response.data.options.method, 'GET');
+                    assert.equal(response.data.options.headers.bar, 'baz');
+                    assert.equal(response.data.options.headers.foo, 'qux');
+                    assert.equal(response.data.options.headers.Authorization, 'Bearer qux');
                 });
         });
     });
