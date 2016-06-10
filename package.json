@@ -20,10 +20,10 @@
     "lodash": "^4.13.1"
   },
   "devDependencies": {
-    "eslint": "^2.10.2",
-    "eslint-config-madewithlove": "^3.3.0",
+    "eslint": "^2.11.1",
+    "eslint-config-madewithlove": "^3.3.1",
     "expect": "^1.20.1",
-    "fetch-mock": "^4.5.0",
+    "fetch-mock": "^4.5.4",
     "madewithlove-webpack-config": "^4.0.1",
     "mocha": "^2.5.3",
     "webpack": "^1.13.1"
