@@ -1,6 +1,7 @@
 import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import AbstractRequest from '../src/AbstractRequest';
+import {parseJson} from '../src/Middlewares';
 import 'babel-polyfill';
 
 describe('AbstractRequest', () => {
@@ -21,6 +22,7 @@ describe('AbstractRequest', () => {
     beforeEach(() => {
         requests = new AbstractRequest();
         requests.rootUrl = 'http://google.com';
+        requests.middleware = [parseJson];
         fetchMock.reset();
     });
 

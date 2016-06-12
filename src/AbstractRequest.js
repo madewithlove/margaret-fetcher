@@ -2,8 +2,6 @@ import 'isomorphic-fetch';
 import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
 import {buildQueryString} from './Helpers';
-import {parseJson} from './Middlewares';
-import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
 
@@ -18,22 +16,12 @@ export default class AbstractRequest {
     middleware = [];
 
     /**
-     * @type {string}
-     */
-    rootUrl = '/api';
-
-    /**
      * The default options
      *
      * @type {Object}
      */
     options = {
         method: 'GET',
-        type: 'json',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
     };
 
     /**
@@ -43,9 +31,10 @@ export default class AbstractRequest {
      */
     query = {};
 
-    constructor() {
-        this.middleware = [parseJson];
-    }
+    /**
+     * @type {string}
+     */
+    rootUrl = '/api';
 
     /**
      * @param {String} url
@@ -201,44 +190,6 @@ export default class AbstractRequest {
         this.query = merge(this.query, parameters);
 
         return this;
-    }
-
-    //////////////////////////////////////////////////////////////////////
-    ///////////////////////////// MIDDLEWARES ////////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    /**
-     * Parse the contents of a JSON response.
-     *
-     * @param {Response} response
-     *
-     * @returns {Response}
-     */
-    parseJSON(response) {
-        if (response.status === NO_CONTENT) {
-            if (response.ok) {
-                return response;
-            }
-
-            const error = new Error(response.statusText);
-            error.response = response;
-
-            throw error;
-        }
-
-        return response.json().then(data => {
-            response.data = data;
-
-            if (response.ok) {
-                return response;
-            }
-
-            const error = new Error(response.statusText);
-            error.response = response;
-            error.data = data;
-
-            throw error;
-        });
     }
 
     //////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
-import AbstractRequest from './AbstractRequest';
+import JsonRequest from './JsonRequest';
 
-export default class CrudRequest extends AbstractRequest {
+export default class CrudRequest extends JsonRequest {
 
     /**
      * Name of the resource
