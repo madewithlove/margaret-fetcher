@@ -155,7 +155,6 @@ describe('AbstractRequest', () => {
                 .withOptions({
                     headers: {
                         foo: options => options.baz,
-                        bar: () => 'baz',
                         baz: 'qux',
                     },
                 })
@@ -163,7 +162,6 @@ describe('AbstractRequest', () => {
                 .make('options')
                 .then(response => {
                     assert.equal(response.data.options.method, 'GET');
-                    assert.equal(response.data.options.headers.bar, 'baz');
                     assert.equal(response.data.options.headers.foo, 'qux');
                     assert.equal(response.data.options.headers.Authorization, 'Bearer qux');
                 });

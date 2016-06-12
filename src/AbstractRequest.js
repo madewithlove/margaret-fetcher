@@ -1,7 +1,6 @@
 import 'isomorphic-fetch';
-import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
-import {buildQueryString} from './Helpers';
+import {buildQueryString, buildOptions} from './Helpers';
 
 export default class AbstractRequest {
 
@@ -50,26 +49,6 @@ export default class AbstractRequest {
     }
 
     /**
-     * @param {Object} options
-     *
-     * @return {Object}
-     */
-    buildOptions(options) {
-        return mapValues(options, value => {
-            switch (typeof value) {
-                case 'function':
-                    return value(options);
-
-                case 'object':
-                    return this.buildOptions(value);
-
-                default:
-                    return value;
-            }
-        });
-    }
-
-    /**
      * Make a request somewhere
      *
      * @param {String} url
@@ -79,7 +58,7 @@ export default class AbstractRequest {
      */
     make(url, options = {}) {
         let body = merge(this.options, options);
-        body = this.buildOptions(body);
+        body = buildOptions(body);
 
         return this.fetch(url, body);
     }
