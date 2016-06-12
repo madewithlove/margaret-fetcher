@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {buildQueryString} from '../../src/helpers';
+import {buildQueryString} from '../../src/Helpers';
 
 describe('buildQueryString', () => {
     it('can build a query string', () => {

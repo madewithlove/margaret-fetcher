@@ -1,7 +1,8 @@
 import 'isomorphic-fetch';
 import mapValues from 'lodash/mapValues';
 import merge from 'lodash/merge';
-import {buildQueryString} from './helpers';
+import {buildQueryString} from './Helpers';
+import {parseJson} from './Middlewares';
 import {NO_CONTENT} from './HttpStatusCodes';
 
 export default class AbstractRequest {
@@ -43,9 +44,7 @@ export default class AbstractRequest {
     query = {};
 
     constructor() {
-        this.middleware = [
-            ::this.parseJSON,
-        ];
+        this.middleware = [parseJson];
     }
 
     /**

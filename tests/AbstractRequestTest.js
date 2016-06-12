@@ -25,13 +25,6 @@ describe('AbstractRequest', () => {
     });
 
     describe('#make', () => {
-        it('can make basic JSON request', () => {
-            return requests.make('foo').then(response => {
-                assert.equal(response.data.foo, 'bar');
-                assert.equal(fetchMock.calls().matched.length, 1);
-            });
-        });
-
         it('can catch errors', () => {
             return requests.make('bar').catch(error => {
                 assert.equal(error.message.includes('Unexpected'), true);
