@@ -1,15 +1,20 @@
 import assert from 'assert';
-import {buildQueryString} from '../../src/Helpers';
+import {buildQuery} from '../../src/Helpers';
 
-describe('buildQueryString', () => {
-    it('can build a query string', () => {
-        const result = buildQueryString({
-            foo: 'bar',
-            baz: ['a', 'b'],
-            qux: undefined,
-            rob: [],
+describe('buildQuery', () => {
+    it('can build a query', () => {
+        const result = buildQuery({
+            protocol: 'http',
+            host: 'foo.com',
+            pathname: 'foobar',
+            query: {
+                foo: 'bar',
+                baz: ['a', 'b'],
+                qux: undefined,
+                rob: [],
+            }
         });
 
-        assert.equal(result, '?baz[]=a&baz[]=b&foo=bar');
+        assert.equal(result, 'http://foo.com/foobar?foo=bar&baz[]=a&baz[]=b&');
     });
 });

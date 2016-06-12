@@ -41,7 +41,6 @@ describe('CrudRequest', () => {
         });
     });
 
-
     describe('#show', () => {
         it('can get a resource', () => {
             return requests.show(1).then(response => {
@@ -51,7 +50,6 @@ describe('CrudRequest', () => {
         });
     });
 
-
     describe('#update', () => {
         it('can update a resource', () => {
             return requests.update(1, {name: 'bar'}).then(response => {
@@ -60,8 +58,6 @@ describe('CrudRequest', () => {
             });
         });
     });
-
-
 
     describe('#delete', () => {
         it('can delete a resource', () => {

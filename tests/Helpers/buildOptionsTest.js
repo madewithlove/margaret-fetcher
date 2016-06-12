@@ -1,4 +1,5 @@
 import assert from 'assert';
+import url from 'url';
 import {buildOptions} from '../../src/Helpers';
 
 describe('buildOptions', () => {

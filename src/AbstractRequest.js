@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
+import {parse as parseUrl} from 'url';
 import merge from 'lodash/merge';
-import {buildQueryString, buildOptions} from './Helpers';
+import {buildQuery, buildOptions} from './Helpers';
 
 export default class AbstractRequest {
 
@@ -36,16 +37,19 @@ export default class AbstractRequest {
     rootUrl = '/api';
 
     /**
-     * @param {String} url
+     * @param {String} pathname
      *
      * @return {String}
      */
-    buildEndpoint(url) {
+    buildEndpoint(pathname) {
         if (this.includes.length) {
             this.query.include = this.includes.join(',');
         }
 
-        return `${this.rootUrl}/${url}${buildQueryString(this.query)}`;
+        const {protocol, host} = parseUrl(this.rootUrl);
+        const query = this.query;
+
+        return buildQuery({protocol, host, pathname, query});
     }
 
     /**
