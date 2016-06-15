@@ -14,9 +14,12 @@ export default response => {
         throw error;
     }
 
-    return response.json().then(data => {
-        response.data = data;
+    return response.text().then(data => {
+        if (!data) {
+            return response;
+        }
 
+        response.data = JSON.parse(data);
         if (response.ok) {
             return response;
         }
