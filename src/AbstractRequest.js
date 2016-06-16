@@ -49,7 +49,12 @@ export default class AbstractRequest {
         const {protocol, host} = parseUrl(this.rootUrl);
         const query = this.query;
 
-        return buildQuery({protocol, host, pathname, query});
+        const built = buildQuery({protocol, host, pathname, query});
+        if (!host) {
+            return `${this.rootUrl}/${built}`;
+        }
+
+        return built;
     }
 
     /**

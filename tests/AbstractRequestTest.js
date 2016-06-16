@@ -10,6 +10,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/foo', '{"foo":"bar"}');
     fetchMock.mock('http://google.com/bar', 500);
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
+    fetchMock.mock('/api/options', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?include=foo%2Cbar', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo=bar&baz=qux', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo[]=bar&foo[]=baz', (url, options) => ({url, options}));
@@ -164,6 +165,17 @@ describe('AbstractRequest', () => {
                     assert.equal(response.data.options.method, 'GET');
                     assert.equal(response.data.options.headers.foo, 'qux');
                     assert.equal(response.data.options.headers.Authorization, 'Bearer qux');
+                });
+        });
+
+        it('can have partial rootUrls', () => {
+            requests.rootUrl = '/api';
+
+            return requests
+                .make('options')
+                .then(response => {
+                    assert.equal(response.data.options.method, 'GET');
+                    assert.equal(response.data.url, '/api/options');
                 });
         });
 
