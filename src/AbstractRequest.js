@@ -192,35 +192,22 @@ export default class AbstractRequest {
     //////////////////////////////////////////////////////////////////////
 
     get(url) {
-        return this.make(url, {
-            method: 'GET',
-        });
+        return this.make(url, {method: 'GET'});
     }
 
-    put(url, payload) {
-        return this.make(url, {
-            method: 'PUT',
-            body: JSON.stringify(payload),
-        });
+    put(url, body) {
+        return this.make(url, {method: 'PUT', body});
     }
 
-    patch(url, payload) {
-        return this.make(url, {
-            method: 'PATCH',
-            body: JSON.stringify(payload),
-        });
+    patch(url, body) {
+        return this.make(url, {method: 'PATCH', body});
     }
 
-    post(url, payload) {
-        return this.make(url, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-        });
+    post(url, body) {
+        return this.make(url, {method: 'POST', body});
     }
 
     delete(url) {
-        return this.make(url, {
-            method: 'DELETE',
-        });
+        return this.make(url, {method: 'DELETE'});
     }
 }

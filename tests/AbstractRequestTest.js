@@ -106,21 +106,21 @@ describe('AbstractRequest', () => {
 
     describe('#put', () => {
         it('can make POST requests', () => {
-            return requests.post('options', {foo: 'bar'}).then(response => {
+            return requests.post('options', JSON.stringify({foo: 'bar'})).then(response => {
                 assert.equal(response.data.options.method, 'POST');
                 assert.equal(response.data.options.body, '{"foo":"bar"}');
             });
         });
 
         it('can make PATCH requests', () => {
-            return requests.patch('options', {foo: 'bar'}).then(response => {
+            return requests.patch('options', JSON.stringify({foo: 'bar'})).then(response => {
                 assert.equal(response.data.options.method, 'PATCH');
                 assert.equal(response.data.options.body, '{"foo":"bar"}');
             });
         });
 
         it('can make PUT requests', () => {
-            return requests.put('options', {foo: 'bar'}).then(response => {
+            return requests.put('options', JSON.stringify({foo: 'bar'})).then(response => {
                 assert.equal(response.data.options.method, 'PUT');
                 assert.equal(response.data.options.body, '{"foo":"bar"}');
             });

@@ -16,4 +16,29 @@ export default class JsonRequest extends AbstractRequest {
         });
     }
 
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// REQUESTS //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    put(url, payload) {
+        return this.make(url, {
+            method: 'PUT',
+            body: JSON.stringify(payload),
+        });
+    }
+
+    patch(url, payload) {
+        return this.make(url, {
+            method: 'PATCH',
+            body: JSON.stringify(payload),
+        });
+    }
+
+    post(url, payload) {
+        return this.make(url, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        });
+    }
+
 }
