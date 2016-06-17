@@ -6,6 +6,7 @@
 
 ### Changed
 - The `middleware` property has been renamed to `middlewares`
+- The `fetch` method now doesn't use middlewares anymore and does a raw fetch request
 - The `includes` property has been deprecated in favor of using the query parameters methods
 
 ## 0.7.3

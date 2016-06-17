@@ -98,7 +98,7 @@ describe('AbstractRequest', () => {
                 body: {foo: 'bar'}
             };
 
-            return requests.fetch('options', body).then(response => {
+            return requests.fetch('options', body).then(parseJson).then(response => {
                 assert.equal(response.data.options.headers, undefined);
             });
         });

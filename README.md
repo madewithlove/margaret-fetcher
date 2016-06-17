@@ -6,7 +6,8 @@ Dead simple request classes for fetch.
 
 ## Usage
 
-To use it simply create a class that extends `JsonRequest` (or `AbstractRequest`) and define requests as methods on it:
+To use it simply create a class that extends `JsonRequest` (or `AbstractRequest`) and define requests as methods on it.
+The `AbstractRequest` class comes with a method per HTTP verb (`this.get`, `this.post` etc.).
 
 ```js
 import {JsonRequest} from 'margaret-fetcher';
@@ -24,10 +25,19 @@ export default class UserRequests extends JsonRequest
     update(user, attributes) {
         return this.put(`users/${user}`, attributes);
     }
+
+    uploadImage(image) {
+        const body = new FormData();
+        body.append('image', image);
+
+        return this.make('images', {
+            method: 'PUT',
+            body,
+        });
+    }
 }
 ```
 
-The `AbstractRequest` class comes with a method per HTTP verb (`this.get`, `this.post` etc.).
 To then use those methods simply call the class anywhere:
 
 ```js
@@ -49,12 +59,9 @@ export default class UserRequests extends CrudRequest
 ```
 
 ```js
-import UserRequests from './UserRequests';
+const requests = new UserRequests();
 
-const requests = new UserRequests;
-
-const user = requests.show(3);
-
+requests.show(3);
 requests.update(3, {foo: 'bar'});
 requests.delete(3);
 ```
@@ -124,18 +131,20 @@ UserRequests.withQueryParameter('foo', ['bar', 'baz']); // ?foo[]=bar&foo[]=baz
 
 ### Configuring middlewares
 
-The promise returned by `fetch` will be passed through a list of `middlewares`. By default it will return an object of the data contained in the response. But you can add your own middlewares to perform specific logic.
+The promise returned by `fetch` will be passed through a list of `middlewares`.
+By default it will return an object of the data contained in the response. But you can add your own middlewares to perform specific logic.
 
 ```js
-import {parseJson} from 'margaret-fetcher';
+import {CrudRequest, parseJson, extractData} from 'margaret-fetcher';
 
 class MyRequest extends CrudRequest {
     constructor() {
         super();
 
         this.setMiddlewares([
-          parseJson,
+          parseJson, // Parses a JSON response
           ::this.extractAuthorizationHeader,
+          extractData, // Returns the data contained in a Response object
         ]);
     }
 
@@ -169,6 +178,25 @@ You can use a function as well, like for other options:
 
 ```js
 UserRequests.withBearerToken(::AuthManager.getToken).show(3)
+```
+
+### Raw fetch requests
+
+Sometimes you just need to bypass everything and do a raw fetch request, you can do that through the `fetch` method:
+
+```js
+class UserRequests extends AbstractRequest
+{
+    uploadSomething(image) {
+        const body = new FormData();
+        body.append('image', image);
+
+        return this.fetch('images', {
+            method: 'PUT',
+            body,
+        });
+    }
+}
 ```
 
 ## Testing

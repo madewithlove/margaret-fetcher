@@ -60,7 +60,12 @@ export default class AbstractRequest {
         let body = merge(this.options, options);
         body = buildOptions(body);
 
-        return this.fetch(url, body);
+        let promise = this.fetch(url, body);
+        this.middlewares.forEach(middleware => {
+            promise = promise.then(middleware);
+        });
+
+        return promise;
     }
 
     /**
@@ -72,14 +77,10 @@ export default class AbstractRequest {
      * @returns {Promise}
      */
     fetch(url, body = {}) {
-        const endpoint = this.buildEndpoint(url);
-        let promise = fetch(endpoint, body);
-
-        this.middlewares.forEach(middleware => {
-            promise = promise.then(middleware);
-        });
-
-        return promise;
+        return fetch(
+            this.buildEndpoint(url),
+            body
+        );
     }
 
     //////////////////////////////////////////////////////////////////////
