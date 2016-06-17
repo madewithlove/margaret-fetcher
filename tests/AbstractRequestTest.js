@@ -49,9 +49,15 @@ describe('AbstractRequest', () => {
                 assert.equal(response.headers.get('Authorization'), 'Bearer foo');
             };
 
-            requests.middleware = [extractAuthorizationHeader];
+            return requests.withMiddleware(extractAuthorizationHeader).get('token');
+        });
 
-            return requests.get('token');
+        it('can bypass middlewares', () => {
+            return requests.withoutMiddlewares().get('foo')
+                .then(response => response.text())
+                .then(response => {
+                    assert.equal(response, '{"foo":"bar"}');
+                });
         });
 
         it('can specify additional query parameters', () => {

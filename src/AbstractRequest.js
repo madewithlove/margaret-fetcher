@@ -11,6 +11,13 @@ export default class AbstractRequest {
     middleware = [];
 
     /**
+     * The default query parameters
+     *
+     * @type {Object}
+     */
+    query = {};
+
+    /**
      * The default options
      *
      * @type {Object}
@@ -18,13 +25,6 @@ export default class AbstractRequest {
     options = {
         method: 'GET',
     };
-
-    /**
-     * The default query parameters
-     *
-     * @type {Object}
-     */
-    query = {};
 
     /**
      * @type {string}
@@ -167,6 +167,22 @@ export default class AbstractRequest {
      */
     withQueryParameters(parameters) {
         this.query = merge(this.query, parameters);
+
+        return this;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// MIDDLEWARES ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    withMiddleware(middleware) {
+        this.middleware.push(middleware);
+
+        return this;
+    }
+
+    withoutMiddlewares() {
+        this.middleware = [];
 
         return this;
     }
