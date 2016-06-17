@@ -79,12 +79,6 @@ export default class AbstractRequest {
             promise = promise.then(middleware);
         });
 
-        // Catch errors
-        promise = promise.catch(error => {
-            console.warn(error);
-            throw error;
-        });
-
         return promise;
     }
 
