@@ -11,7 +11,7 @@ describe('AbstractRequest', () => {
     fetchMock.mock('http://google.com/bar', 500);
     fetchMock.mock('http://google.com/options', (url, options) => ({url, options}));
     fetchMock.mock('/api/options', (url, options) => ({url, options}));
-    fetchMock.mock('http://google.com/options?include=foo%2Cbar', (url, options) => ({url, options}));
+    fetchMock.mock('http://google.com/options?include[]=foo&include[]=bar', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo=bar&baz=qux', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/options?foo[]=bar&foo[]=baz', (url, options) => ({url, options}));
     fetchMock.mock('http://google.com/token', new Response({}, {
@@ -36,10 +36,10 @@ describe('AbstractRequest', () => {
         });
 
         it('can define includes', () => {
-            requests.includes = ['foo', 'bar'];
+            requests.withQueryParameter('include', ['foo', 'bar']);
 
             return requests.post('options').then(response => {
-                assert.equal(response.url, 'http://google.com/options?include=foo%2Cbar');
+                assert.equal(response.url, 'http://google.com/options?include[]=foo&include[]=bar');
                 assert.equal(fetchMock.calls().matched.length, 1);
             });
         });

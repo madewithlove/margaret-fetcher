@@ -8,11 +8,6 @@ export default class AbstractRequest {
     /**
      * @type {Array}
      */
-    includes = [];
-
-    /**
-     * @type {Array}
-     */
     middleware = [];
 
     /**
@@ -42,10 +37,6 @@ export default class AbstractRequest {
      * @return {String}
      */
     buildEndpoint(pathname) {
-        if (this.includes.length) {
-            this.query.include = this.includes.join(',');
-        }
-
         const {protocol, host} = parseUrl(this.rootUrl);
         const query = this.query;
 
