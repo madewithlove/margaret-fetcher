@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.8.0 (Unreleased)
+### Added
+- Added `setMiddlewares`, `withMiddleware` and `withoutMiddlewares`
+
+### Changed
+- The `middleware` property has been renamed to `middlewares`
+- The `includes` property has been deprecated in favor of using the query parameters methods
+
 ## 0.7.3
 ### Fixed
 - Support partial root urls
