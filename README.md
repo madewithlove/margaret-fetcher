@@ -11,7 +11,7 @@ To use it simply create a class that extends `JsonRequest` (or `AbstractRequest`
 ```js
 import {JsonRequest} from 'margaret-fetcher';
 
-class UserRequests extends JsonRequest
+export default class UserRequests extends JsonRequest
 {
     query = {
         include: 'articles',
@@ -25,8 +25,6 @@ class UserRequests extends JsonRequest
         return this.put(`users/${user}`, attributes);
     }
 }
-
-export default UserRequests;
 ```
 
 The `AbstractRequest` class comes with a method per HTTP verb (`this.get`, `this.post` etc.).
@@ -43,14 +41,11 @@ You can also use the `CrudRequest` class which already comes with methods for CR
 ```js
 import {CrudRequest} from 'margaret-fetcher';
 
-class UserRequests extends CrudRequest
+export default class UserRequests extends CrudRequest
 {
-    query = {include: 'articles'};
-
     resource = 'users';
+    query = {include: 'articles'};
 }
-
-export default UserRequests;
 ```
 
 ```js
