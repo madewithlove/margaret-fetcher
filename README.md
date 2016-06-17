@@ -113,14 +113,14 @@ UserRequests.withQueryParameter('foo', ['bar', 'baz']); // ?foo[]=bar&foo[]=baz
 
 ### Middleware
 
-The promise returned by `fetch` will be passed through a list of `middleware`. By default it will return an object of the data contained in the response. But you can add your own middleware to perform specific logic.
+The promise returned by `fetch` will be passed through a list of `middlewares`. By default it will return an object of the data contained in the response. But you can add your own middlewares to perform specific logic.
 
 ```js
 class MyRequest extends CrudRequest {
     constructor() {
         super();
 
-        this.middleware = [
+        this.middlewares = [
           ::this.extractAuthorizationHeader,
           ::this.parseJSON,
         ];

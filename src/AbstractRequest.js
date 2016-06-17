@@ -8,7 +8,7 @@ export default class AbstractRequest {
     /**
      * @type {Array}
      */
-    middleware = [];
+    middlewares = [];
 
     /**
      * The default query parameters
@@ -75,7 +75,7 @@ export default class AbstractRequest {
         const endpoint = this.buildEndpoint(url);
         let promise = fetch(endpoint, body);
 
-        this.middleware.forEach(middleware => {
+        this.middlewares.forEach(middleware => {
             promise = promise.then(middleware);
         });
 
@@ -176,13 +176,13 @@ export default class AbstractRequest {
     //////////////////////////////////////////////////////////////////////
 
     withMiddleware(middleware) {
-        this.middleware.push(middleware);
+        this.middlewares.push(middleware);
 
         return this;
     }
 
     withoutMiddlewares() {
-        this.middleware = [];
+        this.middlewares = [];
 
         return this;
     }

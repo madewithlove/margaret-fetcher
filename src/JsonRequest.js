@@ -6,7 +6,7 @@ export default class JsonRequest extends AbstractRequest {
     constructor(...args) {
         super(...args);
 
-        this.middleware = [parseJson];
+        this.middlewares = [parseJson];
         this.withOptions({
             type: 'json',
             headers: {

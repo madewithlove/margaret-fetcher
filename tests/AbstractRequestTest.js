@@ -23,7 +23,7 @@ describe('AbstractRequest', () => {
     beforeEach(() => {
         requests = new AbstractRequest();
         requests.rootUrl = 'http://google.com';
-        requests.middleware = [parseJson];
+        requests.middlewares = [parseJson];
         fetchMock.reset();
     });
 
@@ -44,7 +44,7 @@ describe('AbstractRequest', () => {
             });
         });
 
-        it('can allow custom middleware', () => {
+        it('can allow custom middlewares', () => {
             const extractAuthorizationHeader = response => {
                 assert.equal(response.headers.get('Authorization'), 'Bearer foo');
             };
