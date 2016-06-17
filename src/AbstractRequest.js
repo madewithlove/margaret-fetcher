@@ -169,12 +169,31 @@ export default class AbstractRequest {
     ///////////////////////////// MIDDLEWARES ////////////////////////////
     //////////////////////////////////////////////////////////////////////
 
+    /**
+     * @param {Function[]} middlewares
+     *
+     * @returns {AbstractRequest}
+     */
+    setMiddlewares(middlewares) {
+        this.middlewares = middlewares;
+
+        return this;
+    }
+
+    /**
+     * @param {Function} middleware
+     *
+     * @returns {AbstractRequest}
+     */
     withMiddleware(middleware) {
         this.middlewares.push(middleware);
 
         return this;
     }
 
+    /**
+     * @returns {AbstractRequest}
+     */
     withoutMiddlewares() {
         this.middlewares = [];
 
