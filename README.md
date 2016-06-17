@@ -1,6 +1,8 @@
 # Margaret Fetcher
 
-[![Build Status](https://travis-ci.org/madewithlove/margaret-fetcher.svg?branch=master)](https://travis-ci.org/madewithlove/margaret-fetcher)
+[![build status](https://img.shields.io/travis/madewithlove/margaret-fetcher/master.svg?style=flat-square)](https://travis-ci.org/madewithlove/margaret-fetcher)
+[![npm version](https://img.shields.io/npm/v/margaret-fetcher.svg?style=flat-square)](https://www.npmjs.com/package/margaret-fetcher)
+[![npm downloads](https://img.shields.io/npm/dm/margaret-fetcher.svg?style=flat-square)](https://www.npmjs.com/package/margaret-fetcher)
 
 Dead simple request classes for fetch.
 
