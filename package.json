@@ -2,7 +2,7 @@
   "name": "margaret-fetcher",
   "description": "Request classes for fetch",
   "main": "dist/index.js",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:madewithlove/margaret-fetcher.git"
