@@ -26,7 +26,7 @@ export default response => {
 
         const error = new Error(response.statusText);
         error.response = response;
-        error.data = data;
+        error.data = response.data;
 
         throw error;
     });

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.8.1
+### Fixed
+- Fixed body of error responses not being parsed
+
 ## 0.8.0
 ### Added
 - Added `setMiddlewares`, `withMiddleware` and `withoutMiddlewares`
