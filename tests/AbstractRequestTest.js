@@ -4,8 +4,18 @@ import AbstractRequest from '../src/AbstractRequest';
 import {parseJson} from '../src/Middlewares';
 import 'babel-polyfill';
 
+class DummySubrequest extends AbstractRequest {
+    resource = 'articles';
+
+    show(id) {
+        return this.get(`${this.resource}/${id}`);
+    }
+}
+
 describe('AbstractRequest', () => {
     let requests;
+
+    fetchMock.mock('/api/users/1/articles/1', '{"name":"article"}');
 
     fetchMock.mock('http://google.com/foo', '{"foo":"bar"}');
     fetchMock.mock('http://google.com/bar', 500);
@@ -193,6 +203,33 @@ describe('AbstractRequest', () => {
                     assert.notEqual(response.data.options.headers.Authorization, 'Bearer Foo');
                 });
             });
+        });
+
+        it('can route to subrequest', () => {
+            requests.resource = 'users';
+
+            return requests.getSubrequest(new DummySubrequest(), 1).show(1).then(response => response.json()).then(response => {
+                assert.equal(response.name, 'article');
+            });
+        });
+
+        it('can route to aliased subrequest', () => {
+            requests.resource = 'users';
+            requests.subrequests = {
+                dummy: new DummySubrequest(),
+            };
+
+            return requests.getSubrequest('dummy', 1).show(1).then(response => response.json()).then(response => {
+                assert.equal(response.name, 'article');
+            });
+        });
+
+        it('can throw error on undefined subrequest', () => {
+            try {
+                requests.getSubrequest('foobar', 1);
+            } catch (error) {
+                assert.equal(error.message, 'No subrequest named foobar defined');
+            }
         });
     });
 });

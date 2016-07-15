@@ -32,6 +32,13 @@ export default class AbstractRequest {
     rootUrl = '/api';
 
     /**
+     * Subrequests to alias under this one
+     *
+     * @type {Object}
+     */
+    subrequests = {};
+
+    /**
      * @param {String} pathname
      *
      * @return {String}
@@ -81,6 +88,24 @@ export default class AbstractRequest {
             this.buildEndpoint(url),
             body
         );
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////// SUBREQUESTS ////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    getSubrequest(subrequest, id) {
+        if (typeof subrequest === 'string') {
+            if (this.subrequests.hasOwnProperty(subrequest)) {
+                subrequest = this.subrequests[subrequest];
+            } else {
+                throw new Error(`No subrequest named ${subrequest} defined`);
+            }
+        }
+
+        subrequest.resource = `${this.resource}/${id}/${subrequest.resource}`;
+
+        return subrequest;
     }
 
     //////////////////////////////////////////////////////////////////////

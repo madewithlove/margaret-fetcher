@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.0
+### Added
+- Added subrequests to `AbstractRequest`
+
 ## 0.8.1
 ### Fixed
 - Fixed body of error responses not being parsed

@@ -182,6 +182,35 @@ You can use a function as well, like for other options:
 UserRequests.withBearerToken(::AuthManager.getToken).show(3)
 ```
 
+### Subrequests
+
+Request classes can be nested at will to build more complex paths.
+Imagine you have an `UserRequests` and an `ArticleRequests`, and that an user can have articles, you can do this:
+
+```js
+// GET /users/1/articles/2
+new UserRequests()
+    .getSubrequest(new ArticleRequests(), 1)
+    .show(2);
+```
+
+You can also predefine subrequests through the `subrequests` property on a request class:
+
+```js
+class UserRequests extends AbstractRequest
+{
+    subrequests = {
+        articles: new ArticlesRequests(),  
+    }; 
+}
+```
+
+And then retrieve it anytime:
+
+```js
+new UserRequests().getSubrequest('articles', 1).update(2, attributes);
+```
+
 ### Raw fetch requests
 
 Sometimes you just need to bypass everything and do a raw fetch request, you can do that through the `fetch` method:
