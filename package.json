@@ -21,10 +21,10 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "eslint": "^2.11.1",
-    "eslint-config-madewithlove": "^3.3.1",
-    "fetch-mock": "^4.5.4",
-    "madewithlove-webpack-config": "^4.0.1",
+    "eslint": "^3.0.1",
+    "eslint-config-madewithlove": "^3.4.2",
+    "fetch-mock": "^4.6.1",
+    "madewithlove-webpack-config": "^4.1.0",
     "mocha": "^2.5.3",
     "webpack": "^1.13.1"
   },
