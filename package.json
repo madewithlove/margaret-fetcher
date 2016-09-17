@@ -17,23 +17,22 @@
   "license": "MIT",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.13.1",
+    "lodash": "^4.15.0",
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "eslint": "^3.0.1",
+    "eslint": "^3.5.0",
     "eslint-config-madewithlove": "^3.4.2",
     "fetch-mock": "^4.6.1",
     "jest": "^15.1.1",
-    "madewithlove-webpack-config": "^4.1.0",
-    "webpack": "^1.13.1"
+    "madewithlove-webpack-config": "^4.1.1",
+    "webpack": "^1.13.2"
   },
   "scripts": {
     "build": "BABEL_ENV=production webpack --progress",
     "prepublish": "npm run build",
     "postversion": "git push; git push --tags; npm publish",
     "lint": "eslint src",
-    "test": "mocha tests --recursive --compilers js:babel-core/register",
-    "test:watch": "npm run test -- --watch"
+    "test": "jest"
   }
 }
