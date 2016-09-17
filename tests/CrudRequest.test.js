@@ -26,8 +26,8 @@ describe('CrudRequest', () => {
     describe('#index', () => {
         it('can get all of a resource', () => {
             return requests.index().then(response => {
-                assert.deepEqual(response.data.users, ['foo']);
-                assert.equal(fetchMock.calls().matched.length, 1);
+                expect(response.data.users).toEqual(['foo']);
+                expect(fetchMock.calls().matched.length).toBe(1);
             });
         });
     });
@@ -35,8 +35,8 @@ describe('CrudRequest', () => {
     describe('#store', () => {
         it('can store a resource', () => {
             return requests.store({name: 'foo'}).then(response => {
-                assert.deepEqual(response.data.users, [{name: 'foo'}]);
-                assert.equal(fetchMock.calls().matched.length, 1);
+                expect(response.data.users).toEqual([{name: 'foo'}]);
+                expect(fetchMock.calls().matched.length).toEqual(1);
             });
         });
     });
@@ -44,8 +44,8 @@ describe('CrudRequest', () => {
     describe('#show', () => {
         it('can get a resource', () => {
             return requests.show(1).then(response => {
-                assert.deepEqual(response.data, {name: 'foo'});
-                assert.equal(fetchMock.calls().matched.length, 1);
+                expect(response.data).toEqual({name: 'foo'});
+                expect(fetchMock.calls().matched.length).toEqual(1);
             });
         });
     });
@@ -53,8 +53,8 @@ describe('CrudRequest', () => {
     describe('#update', () => {
         it('can update a resource', () => {
             return requests.update(1, {name: 'bar'}).then(response => {
-                assert.deepEqual(response.data, {name: 'bar'});
-                assert.equal(fetchMock.calls().matched.length, 1);
+                expect(response.data).toEqual({name: 'bar'});
+                expect(fetchMock.calls().matched.length).toEqual(1);
             });
         });
     });
@@ -62,7 +62,7 @@ describe('CrudRequest', () => {
     describe('#delete', () => {
         it('can delete a resource', () => {
             return requests.destroy(1).then(response => {
-                assert.equal(response.status, 204);
+                expect(response.status).toEqual(204);
             });
         });
     });

@@ -195,16 +195,6 @@ describe('AbstractRequest', () => {
                 });
         });
 
-        it.skip('can have requests that dont affect each others', () => {
-            return requests.withBearerToken('Foo').make('options').then(response => {
-                assert.equal(response.data.options.headers.Authorization, 'Bearer Foo');
-
-                return requests.make('options').then(response => {
-                    assert.notEqual(response.data.options.headers.Authorization, 'Bearer Foo');
-                });
-            });
-        });
-
         it('can route to subrequest', () => {
             requests.resource = 'users';
 

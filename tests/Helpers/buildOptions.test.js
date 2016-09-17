@@ -1,5 +1,4 @@
 import assert from 'assert';
-import url from 'url';
 import {buildOptions} from '../../src/Helpers';
 
 describe('buildOptions', () => {
@@ -10,7 +9,7 @@ describe('buildOptions', () => {
             baz: () => 'baz',
         });
 
-        assert.deepEqual(results, {
+        expect(results).toEqual({
             foo: 'foo',
             bar: 'foo',
             baz: 'baz',

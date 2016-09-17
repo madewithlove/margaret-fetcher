@@ -1,4 +1,3 @@
-import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import {parseJson} from '../../src/Middlewares';
 
@@ -17,26 +16,26 @@ describe('parseJson', () => {
 
     it('can parse a JSON response', () => {
         return fetch('http://google.com/foo').then(parseJson).then(response => {
-            assert.deepEqual(response.data, {foo: 'bar'});
+            expect(response.data).toEqual({foo: 'bar'});
         });
     });
 
     it('does not crash on 204 responses', () => {
         return fetch('http://google.com/empty').then(parseJson).then(response => {
-            assert.equal(response.data, null);
+            expect(response.data).toBeFalsy();
         });
     });
 
     it('ignores empty responses', () => {
         return fetch('http://google.com/created').then(parseJson).then(response => {
-            assert.equal(response.data, null);
+            expect(response.data).toBeFalsy();
         });
     });
 
     it('can parse contents of error responses', () => {
         return fetch('http://google.com/error').then(parseJson).catch(response => {
-            assert.equal(response, 'Error: Unprocessable Entity');
-            assert.deepEqual(response.data, {foo: 'bar'});
+            expect(response.message).toEqual('Unprocessable Entity');
+            expect(response.data).toEqual({foo: 'bar'});
         });
     });
 });

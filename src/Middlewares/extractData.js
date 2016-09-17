@@ -1,3 +1,7 @@
 export default response => {
-    return response.data ? response.data : response;
+    if (!response.data) {
+        return response;
+    }
+
+    return response.data.data ? response.data.data : response.data;
 };

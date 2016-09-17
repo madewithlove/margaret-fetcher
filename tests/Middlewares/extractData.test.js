@@ -1,4 +1,3 @@
-import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import {parseJson, extractData} from '../../src/Middlewares';
 
@@ -12,7 +11,7 @@ describe('extractData', () => {
             .then(parseJson)
             .then(extractData)
             .then(extracted => {
-                assert.deepEqual(extracted, {foo: 'bar'});
+                expect(extracted).toEqual({foo: 'bar'});
             });
     });
 
@@ -21,7 +20,7 @@ describe('extractData', () => {
             .then(parseJson)
             .then(extractData)
             .then(extracted => {
-                assert.deepEqual(extracted, {foo: 'bar'});
+                expect(extracted).toEqual({foo: 'bar'});
             });
     });
 });
