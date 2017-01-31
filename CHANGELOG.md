@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.9.1
+### Fixed
+- Fixed additional pathnames in `rootUrl` not being respected
+
 ## 0.9.0
 ### Added
 - Added subrequests to `AbstractRequest`
