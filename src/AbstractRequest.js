@@ -45,7 +45,7 @@ export default class AbstractRequest {
      */
     buildEndpoint(resource) {
         const {protocol, host, path} = parseUrl(this.rootUrl);
-        const pathname = `${path.replace(/^\/|\/$/g, '')}/${resource}`;
+        const pathname = protocol && host ? `${path.replace(/^\/|\/$/g, '')}/${resource}` : resource;
         const query = this.query;
 
         const built = buildQuery({protocol, host, pathname, query});

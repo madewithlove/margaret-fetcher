@@ -29,6 +29,7 @@ describe('AbstractRequest', () => {
             Authorization: 'Bearer foo',
         },
     }));
+    fetchMock.mock('http://google.com/foo/bar/options', (url, options) => ({url, options}));
 
     beforeEach(() => {
         requests = new AbstractRequest();
@@ -192,6 +193,17 @@ describe('AbstractRequest', () => {
                 .then(response => {
                     assert.equal(response.data.options.method, 'GET');
                     assert.equal(response.data.url, '/api/options');
+                });
+        });
+
+        it('can have absolute rootUrls with extra pathnames', () => {
+            requests.rootUrl = 'http://google.com/foo/bar';
+
+            return requests
+                .make('options')
+                .then(response => {
+                    assert.equal(response.data.options.method, 'GET');
+                    assert.equal(response.data.url, 'http://google.com/foo/bar/options');
                 });
         });
 
