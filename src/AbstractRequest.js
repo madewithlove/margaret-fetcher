@@ -39,12 +39,13 @@ export default class AbstractRequest {
     subrequests = {};
 
     /**
-     * @param {String} pathname
+     * @param {String} resource
      *
      * @return {String}
      */
-    buildEndpoint(pathname) {
-        const {protocol, host} = parseUrl(this.rootUrl);
+    buildEndpoint(resource) {
+        const {protocol, host, path} = parseUrl(this.rootUrl);
+        const pathname = `${path.replace(/^\/|\/$/g, '')}/${resource}`;
         const query = this.query;
 
         const built = buildQuery({protocol, host, pathname, query});
