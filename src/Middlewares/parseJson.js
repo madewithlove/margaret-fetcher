@@ -1,3 +1,4 @@
+import {jsonParser} from '../Helpers';
 import {NO_CONTENT} from '../HttpStatusCodes';
 
 export default response => {
@@ -19,7 +20,7 @@ export default response => {
             return response;
         }
 
-        response.data = JSON.parse(data);
+        response.data = jsonParser(data);
         if (response.ok) {
             return response;
         }

@@ -13,6 +13,12 @@ describe('parseJson', () => {
             }
         });
     }));
+    fetchMock.mock('http://google.com/html-error', new Promise(resolve => {
+        resolve({
+            status: 422,
+            body: '<p>Error!</p>'
+        });
+    }));
 
     it('can parse a JSON response', () => {
         return fetch('http://google.com/foo').then(parseJson).then(response => {
@@ -37,5 +43,12 @@ describe('parseJson', () => {
             expect(response.message).toEqual('Unprocessable Entity');
             expect(response.data).toEqual({foo: 'bar'});
         });
+    });
+
+    it('can parse html error respnses', () => {
+        return fetch('http://google.com/html-error').then(parseJson).catch(response => {
+            expect(response.message).toEqual('Unprocessable Entity');
+            expect(response.data).toEqual('<p>Error!</p>');
+        })
     });
 });
