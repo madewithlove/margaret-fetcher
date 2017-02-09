@@ -1,7 +1,10 @@
-import 'isomorphic-fetch';
 import {parse as parseUrl} from 'url';
 import merge from 'lodash/merge';
 import {buildQuery, buildOptions} from './Helpers';
+
+if (typeof fetch === 'undefined') {
+    require('fetch-everywhere');
+}
 
 export default class AbstractRequest {
 

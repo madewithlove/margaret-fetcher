@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.10.0
+### Fixed
+- Fixed issue when using `margaret-fetcher` with `react-native`
+
 ## 0.9.1
 ### Fixed
 - Fixed additional pathnames in `rootUrl` not being respected
