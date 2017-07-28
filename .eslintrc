@@ -1,6 +1,7 @@
 {
   "extends": "madewithlove",
   "rules": {
+    "padded-blocks": 0,
     "no-prototype-builtins": 0
   }
 }

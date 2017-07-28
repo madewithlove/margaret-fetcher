@@ -1,10 +1,9 @@
 // Type definitions for margaret-fetcher
 // Definitions by: Maxime Fabre (maxime@madewithlove.be)
-/// <reference types="whatwg-fetch" />
 
 declare type Middleware = (response: Response) => any;
 declare type Payload = any;
-declare type QueryParameter = number | number[] | string | string[];
+declare type QueryParameter = any;
 declare type QueryParameters = {[key: string]: QueryParameter};
 declare type Request = Promise<any>;
 declare type ResourceId = number | string;

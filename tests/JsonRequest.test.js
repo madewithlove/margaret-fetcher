@@ -1,7 +1,6 @@
 import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import {JsonRequest} from '../src';
-import 'babel-polyfill';
 
 describe('JsonRequest', () => {
     let requests;

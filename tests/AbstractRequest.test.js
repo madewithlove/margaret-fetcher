@@ -2,7 +2,6 @@ import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import AbstractRequest from '../src/AbstractRequest';
 import {parseJson} from '../src/Middlewares';
-import 'babel-polyfill';
 
 class DummySubrequest extends AbstractRequest {
     resource = 'articles';

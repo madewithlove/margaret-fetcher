@@ -1,7 +1,5 @@
-import assert from 'assert';
 import fetchMock from 'fetch-mock';
 import CrudRequest from '../src/CrudRequest';
-import 'babel-polyfill';
 
 describe('CrudRequest', () => {
     let requests;
